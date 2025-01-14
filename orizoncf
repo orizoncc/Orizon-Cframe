@@ -6,7 +6,7 @@ local CoreGui = game:GetService("CoreGui")
 
 local Cframe = {}
 Cframe.enabled = false
-Cframe.speed = 10
+Cframe.speed = 5
 
 local OrizonCFrame = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -60,12 +60,13 @@ end)
 local lastCommandTime = 0
 
 Players.LocalPlayer.Chatted:Connect(function(message)
-    if message:lower():sub(1, 7) == "/cframe" then
+    local args = message:split(" ")
+    if args[1]:lower() == "/cframe" then
         local currentTime = tick()
         if currentTime - lastCommandTime < 0.5 then return end
         lastCommandTime = currentTime
 
-        local speed = tonumber(message:sub(9))
+        local speed = tonumber(args[2])
         if speed then
             if speed > 50 then
                 StarterGui:SetCore("SendNotification", {
