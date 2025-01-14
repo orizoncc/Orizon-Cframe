@@ -6,7 +6,7 @@ local CoreGui = game:GetService("CoreGui")
 
 local Cframe = {}
 Cframe.enabled = false
-Cframe.speed = 5
+Cframe.speed = 10
 
 local OrizonCFrame = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -55,6 +55,9 @@ end
 TextButton.MouseButton1Click:Connect(function()
     Cframe.enabled = not Cframe.enabled
     TextButton.Text = Cframe.enabled and "CFrame ON" or "CFrame OFF"
+    if Cframe.enabled then
+        handleCFrameMovement()
+    end
 end)
 
 local lastCommandTime = 0
@@ -63,7 +66,7 @@ Players.LocalPlayer.Chatted:Connect(function(message)
     local args = message:split(" ")
     if args[1]:lower() == "/cframe" then
         local currentTime = tick()
-        if currentTime - lastCommandTime < 0.5 then return end
+        if currentTime - lastCommandTime < 0.2 then return end
         lastCommandTime = currentTime
 
         local speed = tonumber(args[2])
@@ -103,6 +106,9 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.LeftControl then
         Cframe.enabled = not Cframe.enabled
         TextButton.Text = Cframe.enabled and "CFrame ON" or "CFrame OFF"
+        if Cframe.enabled then
+            handleCFrameMovement()
+        end
     end
 end)
 
